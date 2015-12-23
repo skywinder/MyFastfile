@@ -1,3 +1,6 @@
+notify = "YES"
+fabric_group = "main"
+
 
 desc "Update build number"
 lane :bump_build_number do
@@ -31,3 +34,11 @@ lane :commit_version_bump do
     commit_version_bump(message: "test message")
 end
 
+lane :fabric do |options|
+    configuration = "Debug"
+    if options[:bump]
+        bump_build_number
+    end
+
+    sh("cd .. && ipa distribute:crashlytics -c ./Crashlytics.framework -f ./#{scheme}.ipa -g #{fabric_group} -n #{notify}")
+end
