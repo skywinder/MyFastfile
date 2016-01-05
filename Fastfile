@@ -34,11 +34,8 @@ lane :commit_version_bump do
     commit_version_bump(message: "test message")
 end
 
-lane :fabric do |options|
-    configuration = "Debug"
-    if options[:bump]
-        bump_build_number
-    end
-
-    sh("cd .. && ipa distribute:crashlytics -c ./Crashlytics.framework -f ./#{scheme}.ipa -g #{fabric_group} -n #{notify}")
+lane :tag do
+    fetched_tag = sh("cd .. && agvtool what-marketing-version -terse1 | tr -d '\n'")
+    build_number = sh("cd .. && agvtool what-version -terse | tr -d '\n'")
+    add_git_tag(tag: "#{fetched_tag}(#{build_number})")
 end
