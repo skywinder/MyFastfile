@@ -16,7 +16,7 @@ lane :bump_major do
 end
 
 desc "Bump patch"
-lane :bump do
+lane :bump_patch do
     increment_build_number
     increment_version_number(bump_type:"patch")
     commit_version_bump
