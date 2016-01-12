@@ -39,3 +39,20 @@ lane :tag do
     build_number = sh("cd .. && agvtool what-version -terse | tr -d '\n'")
     add_git_tag(tag: "#{fetched_tag}(#{build_number})")
 end
+
+lane :fabric do |options|
+    configuration = "Debug"
+    if options[:bump]
+        bump_build_number
+    end
+    if options[:build]
+        beta_build
+    end
+    if options[:silent]
+        notify=false
+    else
+        notify=true
+    end
+    crashlytics(notifications:notify)
+end
+
