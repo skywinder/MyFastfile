@@ -34,6 +34,13 @@ lane :commit_version_bump do
     commit_version_bump(message: "test message")
 end
 
+lane :upload do
+    #deliver
+    deliver(force: true,
+            skip_metadata: true,
+            skip_screenshots: true,)        
+end
+
 lane :tag do
     fetched_tag = sh("cd .. && agvtool what-marketing-version -terse1 | tr -d '\n'")
     build_number = sh("cd .. && agvtool what-version -terse | tr -d '\n'")
